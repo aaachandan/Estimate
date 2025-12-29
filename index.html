@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -31,14 +32,38 @@ body{
     box-shadow:0 4px 14px rgba(0,0,0,.08);
 }
 
+/* HEADER LINE */
+.header-line{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:6px;
+}
+
 .title{
+    flex:1;
     text-align:center;
     font-size:17px;
     font-weight:700;
     letter-spacing:1px;
-    margin-bottom:6px;
 }
 
+/* RIGHT INFO */
+.top-right{
+    text-align:right;
+    font-size:12.5px;
+    min-width:160px;
+}
+.top-right input{
+    border:none;
+    border-bottom:1px solid #999;
+    font-size:12.5px;
+    text-align:right;
+    outline:none;
+    width:130px;
+}
+
+/* TOP DETAILS */
 .top{
     display:flex;
     justify-content:space-between;
@@ -53,7 +78,6 @@ body{
 }
 .box b{font-size:14.5px}
 .box p{margin:2px 0}
-
 .box input{
     width:100%;
     border:none;
@@ -64,13 +88,7 @@ body{
     margin-top:3px;
 }
 
-/* DATE – RIGHT SIDE */
-.date{
-    text-align:right;
-    font-size:13px;
-    margin-bottom:4px;
-}
-
+/* TABLE */
 table{
     width:100%;
     border-collapse:collapse;
@@ -114,13 +132,10 @@ td input{
 
 .assurance{
     margin-top:8px;
-    margin-bottom:4px;
     font-style:italic;
     font-size:12.5px;
-    line-height:1.45;
 }
 .response{
-    margin:4px 0;
     text-align:center;
     font-size:12px;
     color:#555;
@@ -142,9 +157,7 @@ td input{
     display:block;
 }
 
-@media print{
-    .pdf-btn{display:none}
-}
+@media print{.pdf-btn{display:none}}
 </style>
 </head>
 
@@ -153,10 +166,19 @@ td input{
 <div class="wrapper">
 <div class="page" id="estimate">
 
-<div class="title">SERVICE ESTIMATE</div>
+<!-- HEADER LINE -->
+<div class="header-line">
+    <div style="width:160px"></div>
+
+    <div class="title">SERVICE ESTIMATE</div>
+
+    <div class="top-right">
+        <div><b>Date:</b> <input id="date"></div>
+        <div><b>Estimate No:</b> <input id="estNo"></div>
+    </div>
+</div>
 
 <div class="top">
-    <!-- LEFT -->
     <div class="box">
         <b>Ray Services</b>
         <p>Ayodhya Nagar, Santoshi Nagar,</p>
@@ -165,9 +187,7 @@ td input{
         <p>Mobile No: 7746969000, 9713511999</p>
     </div>
 
-    <!-- RIGHT -->
     <div class="box">
-        <div class="date"><b>Date:</b> <input id="date"></div>
         <b>Client Details</b>
         <input placeholder="Client Name">
         <input placeholder="Mobile Number">
@@ -175,6 +195,7 @@ td input{
     </div>
 </div>
 
+<!-- TABLE -->
 <table id="estimateTable">
 <thead>
 <tr>
@@ -211,10 +232,10 @@ We have over 8 years of professional experience, and we assure you that all work
 </div>
 
 <div class="response">
---------------------------- (We are waiting for your response) ---------------------------
+--------------------------- (We are waiting for your response) ----------------------------
 </div>
 
-<!-- ORIGINAL TERMS & CONDITIONS -->
+<!-- ORIGINAL TERMS -->
 <div class="terms">
 <b>Terms & Conditions</b><br><br>
 
@@ -238,12 +259,16 @@ We have over 8 years of professional experience, and we assure you that all work
 </div>
 
 <script>
-/* AUTO DATE */
+/* AUTO DATE DD/MM/YYYY */
 let d = new Date();
-document.getElementById("date").value =
-  String(d.getDate()).padStart(2,'0') + "/" +
-  String(d.getMonth()+1).padStart(2,'0') + "/" +
-  d.getFullYear();
+let dd = String(d.getDate()).padStart(2,'0');
+let mm = String(d.getMonth()+1).padStart(2,'0');
+let yyyy = d.getFullYear();
+document.getElementById("date").value = `${dd}/${mm}/${yyyy}`;
+
+/* ESTIMATE NO FORMAT: D/R/C/01 */
+let monthLetter = d.toLocaleString('en-US',{month:'long'})[0].toUpperCase(); // D
+document.getElementById("estNo").value = `${monthLetter}/R/C/01`;
 
 let rowNo = 1;
 
@@ -278,7 +303,6 @@ function downloadPDF(){
     html2pdf().from(document.getElementById("estimate")).set({
         filename:'Ray_Services_Service_Estimate.pdf',
         margin:[6,12,6,12],
-        image:{type:'jpeg',quality:0.98},
         html2canvas:{scale:2},
         jsPDF:{unit:'mm',format:'a4',orientation:'portrait'}
     }).save();
