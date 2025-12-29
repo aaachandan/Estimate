@@ -31,7 +31,7 @@ body{
     box-shadow:0 4px 14px rgba(0,0,0,.08);
 }
 
-/* ===== HEADER ===== */
+/* ===== TITLE ===== */
 .title{
     text-align:center;
     font-size:18px;
@@ -40,11 +40,19 @@ body{
     margin-bottom:4px;
 }
 
+/* ===== META LINE ===== */
 .meta-line{
     display:flex;
     justify-content:space-between;
     font-size:13px;
     margin-bottom:6px;
+}
+.meta-line input{
+    border:none;
+    border-bottom:1px solid #999;
+    font-size:13px;
+    width:120px;
+    outline:none;
 }
 
 /* ===== TOP INFO ===== */
@@ -81,15 +89,12 @@ table{
     font-size:13.5px;
     table-layout:fixed;
 }
-
 th,td{
     border:1px solid #aaa;
     padding:6px;
     text-align:center;
 }
-
 th{background:#f1f5f9}
-
 td input{
     width:100%;
     border:none;
@@ -97,7 +102,6 @@ td input{
     font-size:13.5px;
     text-align:center;
 }
-
 .right{
     text-align:center;
     font-weight:600;
@@ -166,10 +170,16 @@ td input{
 <!-- TITLE -->
 <div class="title">SERVICE ESTIMATE</div>
 
-<!-- META LINE -->
+<!-- META -->
 <div class="meta-line">
-    <div><b>Estimate No:</b> <span id="estNo"></span></div>
-    <div><b>Date:</b> <span id="date"></span></div>
+    <div>
+        <b>Estimate No:</b>
+        <input id="estNo" value="D/R/C/01">
+    </div>
+    <div>
+        <b>Date:</b>
+        <input id="date">
+    </div>
 </div>
 
 <div class="top">
@@ -225,23 +235,23 @@ We have over 8 years of professional experience, and we assure you that all work
 </div>
 
 <div class="response">
---------------------------- (We are waiting for your response) ---------------------------
+--------------------------- (We are waiting for your response) ----------------------------
 </div>
 
-<!-- TERMS & CONDITIONS (UNCHANGED) -->
+<!-- TERMS & CONDITIONS -->
 <div class="terms">
 <b>Terms & Conditions</b><br><br>
 
-1. Prices: Inclusive of GST @ 18%.<br>
-2. Payment: 100% advance, in favor of “RAY SERVICES” (via Bank / UPI / Online Transfer).<br>
-3. Delivery: Within 7 days from order confirmation.<br>
-4. Transportation: Extra at actuals.<br>
-5. Installation: Charges extra as applicable.<br>
-6. Validity: This estimate is valid for 7 days from the date of issue.<br>
-7. Work Order: Once confirmed, the order cannot be cancelled.<br>
-8. Work Schedule: Government holidays will not be counted as working days.<br>
-9. Liability: RAY SERVICES will not be responsible for any losses due to environmental or unforeseen circumstances<br>
-10. Repair Work: No warranty or guarantee is applicable on any repair work. For products requiring warranty, customers are requested to provide the original warranty documents. RAY SERVICES is always committed to delivering the best service possible<br><br>
+1. <b>Prices:</b> Inclusive of GST @ 18%.<br>
+2. <b>Payment:</b> 100% advance, in favor of “RAY SERVICES” (via Bank / UPI / Online Transfer).<br>
+3. <b>Delivery:</b> Within 7 days from order confirmation.<br>
+4. <b>Transportation:</b> Extra at actuals.<br>
+5. <b>Installation:</b> Charges extra as applicable.<br>
+6. <b>Validity:</b> This estimate is valid for 7 days from the date of issue.<br>
+7. <b>Work Order:</b> Once confirmed, the order cannot be cancelled.<br>
+8. <b>Work Schedule:</b> Government holidays will not be counted as working days.<br>
+9. <b>Liability:</b> RAY SERVICES will not be responsible for any losses due to environmental or unforeseen circumstances<br>
+10. <b>Repair Work:</b> No warranty or guarantee is applicable on any repair work. For products requiring warranty, customers are requested to provide the original warranty documents. RAY SERVICES is always committed to delivering the best service possible<br><br>
 
 <b>Note:</b> Our firm is registered as an MSME Unit under Govt. of India. UDYAM-CG-14-0116772
 </div>
@@ -252,44 +262,42 @@ We have over 8 years of professional experience, and we assure you that all work
 </div>
 
 <script>
+/* AUTO DATE (EDITABLE) */
 let d = new Date();
-document.getElementById("date").innerText =
-String(d.getDate()).padStart(2,'0')+"/"+
-String(d.getMonth()+1).padStart(2,'0')+"/"+
+document.getElementById("date").value =
+String(d.getDate()).padStart(2,'0') + "/" +
+String(d.getMonth()+1).padStart(2,'0') + "/" +
 d.getFullYear();
 
-const monthLetter = d.toLocaleString('en',{month:'short'})[0].toUpperCase();
-document.getElementById("estNo").innerText = `${monthLetter}/R/C/01`;
-
-let rowNo=1;
+let rowNo = 1;
 function addRow(){
-rowNo++;
-let tr=document.createElement("tr");
-tr.innerHTML=`
-<td><input value="${rowNo}"></td>
-<td><input></td>
-<td><input type="number" oninput="calc(this)"></td>
-<td><input type="number" oninput="calc(this)"></td>
-<td><input class="amt" readonly></td>`;
-document.querySelector("#estimateTable tbody").appendChild(tr);
+    rowNo++;
+    let tr=document.createElement("tr");
+    tr.innerHTML=`
+    <td><input value="${rowNo}"></td>
+    <td><input></td>
+    <td><input type="number" oninput="calc(this)"></td>
+    <td><input type="number" oninput="calc(this)"></td>
+    <td><input class="amt" readonly></td>`;
+    document.querySelector("#estimateTable tbody").appendChild(tr);
 }
 function calc(el){
-let r=el.closest("tr");
-let q=r.cells[2].querySelector("input").value||0;
-let rt=r.cells[3].querySelector("input").value||0;
-r.cells[4].querySelector("input").value=q*rt;
-total();
+    let r=el.closest("tr");
+    let q=r.cells[2].querySelector("input").value||0;
+    let rt=r.cells[3].querySelector("input").value||0;
+    r.cells[4].querySelector("input").value=q*rt;
+    total();
 }
 function total(){
-let s=0;
-document.querySelectorAll(".amt").forEach(a=>s+=Number(a.value||0));
-document.getElementById("grand").value=s;
+    let s=0;
+    document.querySelectorAll(".amt").forEach(a=>s+=Number(a.value||0));
+    document.getElementById("grand").value=s;
 }
 function downloadPDF(){
-html2pdf().from(document.getElementById("estimate")).set({
-filename:'Ray_Services_Service_Estimate.pdf',
-jsPDF:{unit:'mm',format:'a4'}
-}).save();
+    html2pdf().from(document.getElementById("estimate")).set({
+        filename:'Ray_Services_Service_Estimate.pdf',
+        jsPDF:{unit:'mm',format:'a4'}
+    }).save();
 }
 </script>
 
