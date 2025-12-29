@@ -35,22 +35,18 @@ body{
 .header-line{
     display:flex;
     justify-content:space-between;
-    align-items:center;
+    align-items:flex-start;
     margin-bottom:6px;
 }
 
 .title{
-    width:100%;
-    text-align:center;
     font-size:17px;
     font-weight:700;
     letter-spacing:1px;
 }
 
 .meta{
-    position:absolute;
-    right:24px;
-    top:18px;
+    text-align:right;
     font-size:13px;
     white-space:nowrap;
 }
@@ -115,7 +111,7 @@ td input{
 /* COLUMN WIDTHS */
 .col-sno{width:7%}
 .col-desc{width:38%}
-.col-qty{width:15%}   /* Qty / Sq Ft extra space */
+.col-qty{width:15%}
 .col-rate{width:18%}
 .col-amt{width:22%}
 
@@ -175,8 +171,7 @@ td input{
 <div class="header-line">
     <div class="title">SERVICE ESTIMATE</div>
     <div class="meta">
-        <b>Date:</b> <span id="date"></span>
-        &nbsp;&nbsp;
+        <b>Date:</b> <span id="date"></span><br>
         <b>Estimate No:</b> <span id="estNo"></span>
     </div>
 </div>
@@ -237,7 +232,7 @@ We have over 8 years of professional experience, and we assure you that all work
 --------------------------- (We are waiting for your response) ----------------------------
 </div>
 
-<!-- TERMS & CONDITIONS – EXACT SAME -->
+<!-- TERMS & CONDITIONS (UNCHANGED) -->
 <div class="terms">
 <b>Terms & Conditions</b><br><br>
 
