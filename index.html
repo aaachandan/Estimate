@@ -4,60 +4,160 @@
 <meta charset="UTF-8">
 <title>RAY SERVICES | Service Estimate</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 <style>
 *{box-sizing:border-box}
-body{margin:0;background:#eef2f6;font-family:"Segoe UI",Arial,sans-serif;color:#222}
-.wrapper{display:flex;justify-content:center;padding:8px}
-.page{width:185mm;background:#fff;padding:8mm 12mm;box-shadow:0 4px 14px rgba(0,0,0,.08)}
 
-.title{text-align:center;font-size:18px;font-weight:800;margin-bottom:4px}
+/* 🔒 PDF SAFE CENTER FIX */
+body{
+    margin:0;
+    padding:0;
+    background:#eef2f6;
+    font-family:"Segoe UI", Arial, sans-serif;
+    color:#222;
+}
 
-.meta-line{display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px}
-.meta-line input{border:none;border-bottom:1px solid #999;font-size:13px;width:130px;outline:none}
+.wrapper{
+    width:100%;
+    display:flex;
+    justify-content:center;
+}
 
-.top{display:flex;gap:14px;border-bottom:2px solid #2c5364;padding-bottom:6px}
-.box{width:50%;font-size:13.5px}
+.page{
+    width:190mm;              /* A4 SAFE WIDTH */
+    margin:10mm auto;         /* CENTER FIX */
+    background:#fff;
+    padding:10mm 12mm;
+    box-shadow:0 4px 14px rgba(0,0,0,.08);
+}
+
+/* TITLE */
+.title{
+    text-align:center;
+    font-size:18px;
+    font-weight:800;
+    margin-bottom:6px;
+}
+
+/* META */
+.meta-line{
+    display:flex;
+    justify-content:space-between;
+    font-size:13px;
+    margin-bottom:6px;
+}
+.meta-line input{
+    border:none;
+    border-bottom:1px solid #999;
+    font-size:13px;
+    width:130px;
+    outline:none;
+}
+
+/* TOP INFO */
+.top{
+    display:flex;
+    gap:14px;
+    border-bottom:2px solid #2c5364;
+    padding-bottom:6px;
+}
+.box{
+    width:50%;
+    font-size:13.5px;
+}
 .box b{font-size:14.5px}
 .box p{margin:2px 0}
-.box input{width:100%;border:none;border-bottom:1px solid #999;font-size:13.5px;margin-top:3px;outline:none}
+.box input{
+    width:100%;
+    border:none;
+    border-bottom:1px solid #999;
+    font-size:13.5px;
+    margin-top:3px;
+    outline:none;
+}
 
-table{width:100%;border-collapse:collapse;margin-top:12px;font-size:13.5px;table-layout:fixed}
-th,td{border:1px solid #aaa;padding:6px;text-align:center}
+/* TABLE */
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:12px;
+    font-size:13.5px;
+}
+th,td{
+    border:1px solid #aaa;
+    padding:6px;
+    text-align:center;
+}
 th{background:#f1f5f9}
-td input{width:100%;border:none;font-size:13.5px;outline:none}
-td.desc input{text-align:left;padding-left:6px}
-.right{font-weight:600;background:#f8fafc}
+td input{
+    width:100%;
+    border:none;
+    font-size:13.5px;
+    outline:none;
+}
+td.desc input{
+    text-align:left;
+    padding-left:6px;
+}
+.right{
+    font-weight:600;
+    background:#f8fafc;
+}
 
+/* COLUMN WIDTH */
 .col-sno{width:7%}
 .col-desc{width:38%}
 .col-qty{width:15%}
 .col-rate{width:18%}
 .col-amt{width:22%}
 
+/* ADD ROW */
 .actions{margin-top:6px}
-.add-row{background:#e3eef6;border:1px solid #9bbcd1;padding:5px 12px;font-size:13px;cursor:pointer}
+.add-row{
+    background:#e3eef6;
+    border:1px solid #9bbcd1;
+    padding:5px 12px;
+    font-size:13px;
+    cursor:pointer;
+}
 
-.amount-words{margin-top:6px;font-size:13px;font-weight:600}
+/* AMOUNT WORDS */
+.amount-words{
+    margin-top:6px;
+    font-size:13px;
+    font-weight:700;
+}
 
-/* 🔥 DARK YELLOW ASSURANCE */
+/* DARK YELLOW ASSURANCE */
 .assurance{
     margin-top:10px;
-    padding:12px 14px 12px 16px;
+    padding:12px 14px;
     background:#ffe08a;
     border-left:6px solid #d4a017;
     font-size:13px;
-    line-height:1.6;
     font-weight:700;
-    text-align:left;
 }
 
+/* OTHERS */
 .response{text-align:center;font-size:12px;color:#555;margin:6px 0}
 .terms{font-size:12px;line-height:1.45}
 
-.pdf-btn{background:#2c5364;color:#fff;border:none;padding:6px 16px;font-size:13px;cursor:pointer;margin:10px auto 0;display:block}
-@media print{.pdf-btn,.add-row{display:none}}
+.pdf-btn{
+    background:#2c5364;
+    color:#fff;
+    border:none;
+    padding:6px 16px;
+    font-size:13px;
+    cursor:pointer;
+    margin:10px auto 0;
+    display:block;
+}
+
+@media print{
+    .pdf-btn,.add-row{display:none}
+}
 </style>
 </head>
 
@@ -68,24 +168,24 @@ td.desc input{text-align:left;padding-left:6px}
 <div class="title">SERVICE ESTIMATE</div>
 
 <div class="meta-line">
-<div><b>Estimate No:</b> <input value="D/R/C/01"></div>
-<div><b>Date:</b> <input id="date"></div>
+    <div><b>Estimate No:</b> <input value="D/R/C/01"></div>
+    <div><b>Date:</b> <input id="date"></div>
 </div>
 
 <div class="top">
-<div class="box">
-<b>RAY SERVICES</b>
-<p>Ayodhya Nagar, Santoshi Nagar,</p>
-<p>Mathpurena, Raipur 492013 (C.G.)</p>
-<p>Email ID: rayservices.cg@gmail.com</p>
-<p>Mobile No: 7746969000, 9713511999</p>
-</div>
-<div class="box">
-<b>Client Details</b>
-<input placeholder="Client Name">
-<input placeholder="Mobile Number">
-<input placeholder="Address">
-</div>
+    <div class="box">
+        <b>RAY SERVICES</b>
+        <p>Ayodhya Nagar, Santoshi Nagar,</p>
+        <p>Mathpurena, Raipur 492013 (C.G.)</p>
+        <p>Email ID: rayservices.cg@gmail.com</p>
+        <p>Mobile No: 7746969000, 9713511999</p>
+    </div>
+    <div class="box">
+        <b>Client Details</b>
+        <input placeholder="Client Name">
+        <input placeholder="Mobile Number">
+        <input placeholder="Address">
+    </div>
 </div>
 
 <table id="estimateTable">
@@ -98,6 +198,7 @@ td.desc input{text-align:left;padding-left:6px}
 <th class="col-amt">Amount (₹)</th>
 </tr>
 </thead>
+
 <tbody>
 <tr>
 <td><input value="1"></td>
@@ -107,6 +208,7 @@ td.desc input{text-align:left;padding-left:6px}
 <td><input class="amt" readonly></td>
 </tr>
 </tbody>
+
 <tr>
 <td colspan="4" class="right">Total</td>
 <td><input id="grand" readonly></td>
@@ -132,7 +234,6 @@ carried out with the highest quality, safety standards, and complete cleanliness
 
 <div class="terms">
 <b>Terms & Conditions</b><br><br>
-
 1. <b>Prices:</b> Inclusive of GST @ 18%.<br>
 2. <b>Payment:</b> 100% advance, in favor of “<b>RAY SERVICES</b>”.<br>
 3. <b>Delivery:</b> Within 7 days from order confirmation.<br>
@@ -156,9 +257,11 @@ Our firm is registered as an MSME Unit under Govt. of India. UDYAM-CG-14-0116772
 
 <script>
 let d=new Date();
-date.value=String(d.getDate()).padStart(2,'0')+"/"+String(d.getMonth()+1).padStart(2,'0')+"/"+d.getFullYear();
+document.getElementById("date").value=
+String(d.getDate()).padStart(2,'0')+"/"+String(d.getMonth()+1).padStart(2,'0')+"/"+d.getFullYear();
 
 let rowNo=1;
+
 function addRow(){
 rowNo++;
 let tr=document.createElement("tr");
@@ -168,25 +271,28 @@ tr.innerHTML=`
 <td><input type="number" oninput="calc(this)"></td>
 <td><input type="number" oninput="calc(this)"></td>
 <td><input class="amt" readonly></td>`;
-estimateTable.querySelector("tbody").appendChild(tr);
+document.querySelector("#estimateTable tbody").appendChild(tr);
+total();   // 🔒 force update
 }
 
 function calc(el){
 let r=el.closest("tr");
-r.cells[4].querySelector("input").value=
-(r.cells[2].querySelector("input").value||0)*
-(r.cells[3].querySelector("input").value||0);
+let qty=r.cells[2].querySelector("input").value||0;
+let rate=r.cells[3].querySelector("input").value||0;
+r.cells[4].querySelector("input").value=qty*rate;
 total();
 }
 
 function total(){
 let sum=0;
 document.querySelectorAll(".amt").forEach(a=>sum+=Number(a.value||0));
-grand.value=sum;
-amountWords.innerText="Amount in Words: Rupees "+sum+" Only";
+document.getElementById("grand").value=sum;
+document.getElementById("amountWords").innerText=
+"Amount in Words: Rupees "+sum+" Only";
 }
 
 function downloadPDF(){
+total(); // 🔥 FINAL FORCE UPDATE
 html2pdf().from(document.getElementById("estimate")).save();
 }
 </script>
