@@ -4,22 +4,30 @@
 <meta charset="UTF-8">
 <title>RAY SERVICES | Service Estimate</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 <style>
 *{box-sizing:border-box}
+
 body{
     margin:0;
     background:#eef2f6;
     font-family:"Segoe UI", Arial, sans-serif;
-    color:#222
+    color:#222;
 }
-.wrapper{display:flex;justify-content:center;padding:8px}
+
+.wrapper{
+    display:flex;
+    justify-content:center;
+    padding:8px;
+}
+
 .page{
     width:185mm;
     background:#fff;
     padding:8mm 12mm;
-    box-shadow:0 4px 14px rgba(0,0,0,.08)
+    box-shadow:0 4px 14px rgba(0,0,0,.08);
 }
 
 /* TITLE */
@@ -28,7 +36,7 @@ body{
     font-size:18px;
     font-weight:800;
     letter-spacing:1px;
-    margin-bottom:4px
+    margin-bottom:4px;
 }
 
 /* ESTIMATE + DATE */
@@ -36,14 +44,14 @@ body{
     display:flex;
     justify-content:space-between;
     font-size:13px;
-    margin-bottom:6px
+    margin-bottom:6px;
 }
 .meta-line input{
     border:none;
     border-bottom:1px solid #999;
     font-size:13px;
     width:130px;
-    outline:none
+    outline:none;
 }
 
 /* TOP INFO */
@@ -51,9 +59,12 @@ body{
     display:flex;
     gap:14px;
     border-bottom:2px solid #2c5364;
-    padding-bottom:6px
+    padding-bottom:6px;
 }
-.box{width:50%;font-size:13.5px}
+.box{
+    width:50%;
+    font-size:13.5px;
+}
 .box b{font-size:14.5px}
 .box p{margin:2px 0}
 .box input{
@@ -62,7 +73,7 @@ body{
     border-bottom:1px solid #999;
     font-size:13.5px;
     margin-top:3px;
-    outline:none
+    outline:none;
 }
 
 /* TABLE */
@@ -71,42 +82,54 @@ table{
     border-collapse:collapse;
     margin-top:12px;
     font-size:13.5px;
-    table-layout:fixed
+    table-layout:fixed;
 }
 th,td{
     border:1px solid #aaa;
     padding:6px;
-    text-align:center
+    text-align:center;
 }
 th{background:#f1f5f9}
 td input{
     width:100%;
     border:none;
     font-size:13.5px;
-    text-align:center;
-    outline:none
+    outline:none;
 }
 td.desc input{
     text-align:left;
-    padding-left:6px
+    padding-left:6px;
 }
 .right{
     font-weight:600;
-    background:#f8fafc
+    background:#f8fafc;
 }
 
-/* COLUMN WIDTHS */
+/* COLUMN WIDTH */
 .col-sno{width:7%}
 .col-desc{width:38%}
 .col-qty{width:15%}
 .col-rate{width:18%}
 .col-amt{width:22%}
 
+/* ADD ROW BUTTON */
+.actions{
+    margin-top:6px;
+    text-align:left;
+}
+.add-row{
+    background:#e3eef6;
+    border:1px solid #9bbcd1;
+    padding:5px 12px;
+    font-size:13px;
+    cursor:pointer;
+}
+
 /* AMOUNT WORDS */
 .amount-words{
     margin-top:6px;
     font-size:13px;
-    font-weight:600
+    font-weight:600;
 }
 
 /* ASSURANCE */
@@ -114,19 +137,19 @@ td.desc input{
     margin-top:10px;
     font-size:12.8px;
     line-height:1.55;
-    text-align:left
+    text-align:left;
 }
 
 .response{
     text-align:center;
     font-size:12px;
     color:#555;
-    margin:6px 0
+    margin:6px 0;
 }
 
 .terms{
     font-size:12px;
-    line-height:1.45
+    line-height:1.45;
 }
 
 .pdf-btn{
@@ -137,9 +160,12 @@ td.desc input{
     font-size:13px;
     cursor:pointer;
     margin:10px auto 0;
-    display:block
+    display:block;
 }
-@media print{.pdf-btn{display:none}}
+
+@media print{
+    .pdf-btn,.add-row{display:none}
+}
 </style>
 </head>
 
@@ -180,6 +206,7 @@ td.desc input{
     <th class="col-amt">Amount (₹)</th>
 </tr>
 </thead>
+
 <tbody>
 <tr>
     <td><input value="1"></td>
@@ -189,11 +216,16 @@ td.desc input{
     <td><input class="amt" readonly></td>
 </tr>
 </tbody>
+
 <tr>
     <td colspan="4" class="right">Total</td>
     <td><input id="grand" readonly></td>
 </tr>
 </table>
+
+<div class="actions">
+    <button class="add-row" onclick="addRow()">+ Add Row</button>
+</div>
 
 <div class="amount-words" id="amountWords">
 Amount in Words: Rupees Zero Only
@@ -238,24 +270,38 @@ String(d.getDate()).padStart(2,'0')+"/"+
 String(d.getMonth()+1).padStart(2,'0')+"/"+
 d.getFullYear();
 
+let rowNo=1;
+
+function addRow(){
+    rowNo++;
+    let tr=document.createElement("tr");
+    tr.innerHTML=`
+        <td><input value="${rowNo}"></td>
+        <td class="desc"><input></td>
+        <td><input type="number" oninput="calc(this)"></td>
+        <td><input type="number" oninput="calc(this)"></td>
+        <td><input class="amt" readonly></td>`;
+    document.querySelector("#estimateTable tbody").appendChild(tr);
+}
+
 function calc(el){
-let r=el.closest("tr");
-r.cells[4].querySelector("input").value=
-(r.cells[2].querySelector("input").value||0)*
-(r.cells[3].querySelector("input").value||0);
-total();
+    let r=el.closest("tr");
+    let qty=r.cells[2].querySelector("input").value||0;
+    let rate=r.cells[3].querySelector("input").value||0;
+    r.cells[4].querySelector("input").value=qty*rate;
+    total();
 }
 
 function total(){
-let sum=0;
-document.querySelectorAll(".amt").forEach(a=>sum+=Number(a.value||0));
-document.getElementById("grand").value=sum;
-document.getElementById("amountWords").innerText=
-"Amount in Words: Rupees "+sum+" Only";
+    let sum=0;
+    document.querySelectorAll(".amt").forEach(a=>sum+=Number(a.value||0));
+    document.getElementById("grand").value=sum;
+    document.getElementById("amountWords").innerText=
+        "Amount in Words: Rupees "+sum+" Only";
 }
 
 function downloadPDF(){
-html2pdf().from(document.getElementById("estimate")).save();
+    html2pdf().from(document.getElementById("estimate")).save();
 }
 </script>
 
