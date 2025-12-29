@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -52,7 +51,12 @@ body{
 .top-right{
     text-align:right;
     font-size:12.5px;
-    min-width:160px;
+    min-width:170px;
+}
+.top-right div{
+    display:flex;
+    justify-content:flex-end;
+    gap:4px;
 }
 .top-right input{
     border:none;
@@ -166,15 +170,15 @@ td input{
 <div class="wrapper">
 <div class="page" id="estimate">
 
-<!-- HEADER LINE -->
+<!-- HEADER -->
 <div class="header-line">
-    <div style="width:160px"></div>
+    <div style="width:170px"></div>
 
     <div class="title">SERVICE ESTIMATE</div>
 
     <div class="top-right">
-        <div><b>Date:</b> <input id="date"></div>
-        <div><b>Estimate No:</b> <input id="estNo"></div>
+        <div><b>Date:</b><input id="date"></div>
+        <div><b>Estimate No:</b><input id="estNo"></div>
     </div>
 </div>
 
@@ -195,7 +199,6 @@ td input{
     </div>
 </div>
 
-<!-- TABLE -->
 <table id="estimateTable">
 <thead>
 <tr>
@@ -235,20 +238,20 @@ We have over 8 years of professional experience, and we assure you that all work
 --------------------------- (We are waiting for your response) ----------------------------
 </div>
 
-<!-- ORIGINAL TERMS -->
+<!-- TERMS -->
 <div class="terms">
 <b>Terms & Conditions</b><br><br>
 
-1. Prices: Inclusive of GST @ 18%.<br>
-2. Payment: 100% advance, in favor of “RAY SERVICES” (via Bank / UPI / Online Transfer).<br>
-3. Delivery: Within 7 days from order confirmation.<br>
-4. Transportation: Extra at actuals.<br>
-5. Installation: Charges extra as applicable.<br>
-6. Validity: This estimate is valid for 7 days from the date of issue.<br>
-7. Work Order: Once confirmed, the order cannot be cancelled.<br>
-8. Work Schedule: Government holidays will not be counted as working days.<br>
-9. Liability: RAY SERVICES will not be responsible for any losses due to environmental or unforeseen circumstances<br>
-10. Repair Work: No warranty or guarantee is applicable on any repair work. For products requiring warranty, customers are requested to provide the original warranty documents. RAY SERVICES is always committed to delivering the best service possible<br><br>
+<b>1.</b> Prices: Inclusive of GST @ 18%.<br>
+<b>2.</b> Payment: 100% advance, in favor of “RAY SERVICES” (via Bank / UPI / Online Transfer).<br>
+<b>3.</b> Delivery: Within 7 days from order confirmation.<br>
+<b>4.</b> Transportation: Extra at actuals.<br>
+<b>5.</b> Installation: Charges extra as applicable.<br>
+<b>6.</b> Validity: This estimate is valid for 7 days from the date of issue.<br>
+<b>7.</b> Work Order: Once confirmed, the order cannot be cancelled.<br>
+<b>8.</b> Work Schedule: Government holidays will not be counted as working days.<br>
+<b>9.</b> Liability: RAY SERVICES will not be responsible for any losses due to environmental or unforeseen circumstances<br>
+<b>10.</b> Repair Work: No warranty or guarantee is applicable on any repair work. For products requiring warranty, customers are requested to provide the original warranty documents. RAY SERVICES is always committed to delivering the best service possible<br><br>
 
 <b>Note:</b> Our firm is registered as an MSME Unit under Govt. of India. UDYAM-CG-14-0116772
 </div>
@@ -259,15 +262,15 @@ We have over 8 years of professional experience, and we assure you that all work
 </div>
 
 <script>
-/* AUTO DATE DD/MM/YYYY */
+/* DATE DD/MM/YYYY */
 let d = new Date();
-let dd = String(d.getDate()).padStart(2,'0');
-let mm = String(d.getMonth()+1).padStart(2,'0');
-let yyyy = d.getFullYear();
-document.getElementById("date").value = `${dd}/${mm}/${yyyy}`;
+document.getElementById("date").value =
+  String(d.getDate()).padStart(2,'0') + "/" +
+  String(d.getMonth()+1).padStart(2,'0') + "/" +
+  d.getFullYear();
 
-/* ESTIMATE NO FORMAT: D/R/C/01 */
-let monthLetter = d.toLocaleString('en-US',{month:'long'})[0].toUpperCase(); // D
+/* ESTIMATE NO FORMAT */
+let monthLetter = d.toLocaleString('en-US',{month:'long'})[0].toUpperCase();
 document.getElementById("estNo").value = `${monthLetter}/R/C/01`;
 
 let rowNo = 1;
