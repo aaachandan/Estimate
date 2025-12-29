@@ -18,14 +18,12 @@ body{
     color:#222;
 }
 
-/* WRAPPER */
 .wrapper{
     display:flex;
     justify-content:center;
     padding:8px;
 }
 
-/* SAFE PAGE */
 .page{
     width:185mm;
     background:#fff;
@@ -33,7 +31,6 @@ body{
     box-shadow:0 4px 14px rgba(0,0,0,.08);
 }
 
-/* TITLE */
 .title{
     text-align:center;
     font-size:17px;
@@ -66,6 +63,12 @@ body{
     margin-top:3px;
 }
 
+/* DATE */
+.date{
+    font-size:13px;
+    margin-bottom:4px;
+}
+
 /* TABLE */
 table{
     width:100%;
@@ -77,34 +80,29 @@ table{
 th,td{
     border:1px solid #aaa;
     padding:6px;
-}
-th{
-    background:#f1f5f9;
     text-align:center;
 }
+th{background:#f1f5f9}
 td input{
     width:100%;
     border:none;
     outline:none;
     font-size:13.5px;
+    text-align:center;
 }
 .right{
-    text-align:right;
+    text-align:center;
     font-weight:600;
     background:#f8fafc;
 }
 
-/* COLUMN WIDTHS */
 .col-sno{width:7%}
 .col-desc{width:40%}
 .col-qty{width:11%}
 .col-rate{width:20%}
 .col-amt{width:22%}
 
-/* ACTIONS */
-.actions{
-    margin-top:6px;
-}
+.actions{margin-top:6px}
 .add-row{
     background:#e3eef6;
     border:1px solid #9bbcd1;
@@ -113,16 +111,12 @@ td input{
     font-size:12.5px;
 }
 
-/* ASSURANCE & TERMS */
 .assurance{
     margin-top:8px;
-    margin-bottom:4px;
     font-style:italic;
     font-size:12.5px;
-    line-height:1.45;
 }
 .response{
-    margin:4px 0;
     text-align:center;
     font-size:12px;
     color:#555;
@@ -130,18 +124,8 @@ td input{
 .terms{
     font-size:12px;
     line-height:1.45;
-    margin-top:2px;
 }
 
-/* FOOTER */
-.footer{
-    margin-top:6px;
-    text-align:center;
-    font-size:11.5px;
-    color:#777;
-}
-
-/* PDF BUTTON */
 .pdf-btn{
     background:#2c5364;
     color:#fff;
@@ -153,10 +137,7 @@ td input{
     display:block;
 }
 
-/* HIDE BUTTON IN PDF */
-@media print{
-    .pdf-btn{display:none}
-}
+@media print{.pdf-btn{display:none}}
 </style>
 </head>
 
@@ -167,16 +148,18 @@ td input{
 
 <div class="title">SERVICE ESTIMATE</div>
 
-<!-- TOP DETAILS -->
 <div class="top">
+    <!-- LEFT -->
     <div class="box">
+        <div class="date"><b>Date:</b> <input id="date"></div>
         <b>Ray Services</b>
         <p>Ayodhya Nagar, Santoshi Nagar,</p>
         <p>Mathpurena, Raipur 492013 (C.G.)</p>
-        <p>Email ID: rayservices.cg@gmail.com</p>
-        <p>Mobile No: 7746969000, 9713511999</p>
+        <p>Email: rayservices.cg@gmail.com</p>
+        <p>Mobile: 7746969000, 9713511999</p>
     </div>
 
+    <!-- RIGHT -->
     <div class="box">
         <b>Client Details</b>
         <input placeholder="Client Name">
@@ -185,17 +168,17 @@ td input{
     </div>
 </div>
 
-<!-- TABLE -->
 <table id="estimateTable">
 <thead>
 <tr>
     <th class="col-sno">S.No</th>
     <th class="col-desc">Service Description</th>
-    <th class="col-qty">Qty</th>
+    <th class="col-qty">Qty / Sq Ft</th>
     <th class="col-rate">Rate (₹)</th>
     <th class="col-amt">Amount (₹)</th>
 </tr>
 </thead>
+
 <tbody>
 <tr>
     <td><input value="1"></td>
@@ -205,6 +188,7 @@ td input{
     <td><input class="amt" readonly></td>
 </tr>
 </tbody>
+
 <tr>
     <td colspan="4" class="right">Total</td>
     <td><input id="grand" readonly></td>
@@ -212,44 +196,40 @@ td input{
 </table>
 
 <div class="actions">
-    <button class="add-row" onclick="addRow()">+ Add Row</button>
+<button class="add-row" onclick="addRow()">+ Add Row</button>
 </div>
 
-<!-- ASSURANCE -->
 <div class="assurance">
-We have over 8 years of professional experience, and we assure you that all work will be carried out with the highest quality, safety standards, and complete cleanliness.
+We assure quality workmanship with complete safety and cleanliness standards.
 </div>
 
-<!-- RESPONSE -->
 <div class="response">
 --------------------------- (We are waiting for your response) ----------------------------
 </div>
 
-<!-- TERMS -->
 <div class="terms">
 <b>Terms & Conditions</b><br><br>
-
-1. Prices: Inclusive of GST @ 18%.<br>
-2. Payment: 100% advance, in favor of “RAY SERVICES” (via Bank / UPI / Online Transfer).<br>
-3. Delivery: Within 7 days from order confirmation.<br>
-4. Transportation: Extra at actuals.<br>
-5. Installation: Charges extra as applicable.<br>
-6. Validity: This estimate is valid for 7 days from the date of issue.<br>
-7. Work Order: Once confirmed, the order cannot be cancelled.<br>
-8. Work Schedule: Government holidays will not be counted as working days.<br>
-9. Liability: RAY SERVICES will not be responsible for any losses due to environmental or unforeseen circumstances<br>
-10. Repair Work: No warranty or guarantee is applicable on any repair work. For products requiring warranty, customers are requested to provide the original warranty documents. RAY SERVICES is always committed to delivering the best service possible<br><br>
-
-<b>Note:</b> Our firm is registered as an MSME Unit under Govt. of India. UDYAM-CG-14-0116772
+1. Prices inclusive of GST @18%.<br>
+2. 100% advance payment required.<br>
+3. Delivery within 7 days.<br>
+4. Installation & transport extra.<br>
+5. Estimate valid for 7 days.<br><br>
+<b>MSME:</b> UDYAM-CG-14-0116772
 </div>
 
-<!-- PDF BUTTON (SCREEN ONLY) -->
 <button class="pdf-btn" onclick="downloadPDF()">📄 Service Estimate</button>
 
 </div>
 </div>
 
 <script>
+/* AUTO DATE */
+let d = new Date();
+document.getElementById("date").value =
+  String(d.getDate()).padStart(2,'0') + "/" +
+  String(d.getMonth()+1).padStart(2,'0') + "/" +
+  d.getFullYear();
+
 let rowNo = 1;
 
 function addRow(){
@@ -261,8 +241,7 @@ function addRow(){
         <td><input></td>
         <td><input type="number" oninput="calc(this)"></td>
         <td><input type="number" oninput="calc(this)"></td>
-        <td><input class="amt" readonly></td>
-    `;
+        <td><input class="amt" readonly></td>`;
     tbody.appendChild(tr);
 }
 
@@ -276,9 +255,7 @@ function calc(el){
 
 function total(){
     let sum = 0;
-    document.querySelectorAll(".amt").forEach(a=>{
-        sum += Number(a.value || 0);
-    });
+    document.querySelectorAll(".amt").forEach(a=>sum+=Number(a.value||0));
     document.getElementById("grand").value = sum;
 }
 
@@ -286,7 +263,6 @@ function downloadPDF(){
     html2pdf().from(document.getElementById("estimate")).set({
         filename:'Ray_Services_Service_Estimate.pdf',
         margin:[6,12,6,12],
-        image:{type:'jpeg',quality:0.98},
         html2canvas:{scale:2},
         jsPDF:{unit:'mm',format:'a4',orientation:'portrait'}
     }).save();
@@ -295,5 +271,3 @@ function downloadPDF(){
 
 </body>
 </html>
-
-
