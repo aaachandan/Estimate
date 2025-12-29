@@ -32,23 +32,19 @@ body{
 }
 
 /* ===== HEADER ===== */
-.header-line{
+.title{
+    text-align:center;
+    font-size:18px;
+    font-weight:800;
+    letter-spacing:1px;
+    margin-bottom:4px;
+}
+
+.meta-line{
     display:flex;
     justify-content:space-between;
-    align-items:flex-start;
-    margin-bottom:6px;
-}
-
-.title{
-    font-size:17px;
-    font-weight:700;
-    letter-spacing:1px;
-}
-
-.meta{
-    text-align:right;
     font-size:13px;
-    white-space:nowrap;
+    margin-bottom:6px;
 }
 
 /* ===== TOP INFO ===== */
@@ -167,13 +163,13 @@ td input{
 <div class="wrapper">
 <div class="page" id="estimate">
 
-<!-- HEADER -->
-<div class="header-line">
-    <div class="title">SERVICE ESTIMATE</div>
-    <div class="meta">
-        <b>Date:</b> <span id="date"></span><br>
-        <b>Estimate No:</b> <span id="estNo"></span>
-    </div>
+<!-- TITLE -->
+<div class="title">SERVICE ESTIMATE</div>
+
+<!-- META LINE -->
+<div class="meta-line">
+    <div><b>Estimate No:</b> <span id="estNo"></span></div>
+    <div><b>Date:</b> <span id="date"></span></div>
 </div>
 
 <div class="top">
@@ -229,7 +225,7 @@ We have over 8 years of professional experience, and we assure you that all work
 </div>
 
 <div class="response">
---------------------------- (We are waiting for your response) ----------------------------
+--------------------------- (We are waiting for your response) ---------------------------
 </div>
 
 <!-- TERMS & CONDITIONS (UNCHANGED) -->
@@ -256,54 +252,44 @@ We have over 8 years of professional experience, and we assure you that all work
 </div>
 
 <script>
-/* AUTO DATE */
 let d = new Date();
 document.getElementById("date").innerText =
-  String(d.getDate()).padStart(2,'0') + "/" +
-  String(d.getMonth()+1).padStart(2,'0') + "/" +
-  d.getFullYear();
+String(d.getDate()).padStart(2,'0')+"/"+
+String(d.getMonth()+1).padStart(2,'0')+"/"+
+d.getFullYear();
 
-/* ESTIMATE NO */
 const monthLetter = d.toLocaleString('en',{month:'short'})[0].toUpperCase();
 document.getElementById("estNo").innerText = `${monthLetter}/R/C/01`;
 
-let rowNo = 1;
-
+let rowNo=1;
 function addRow(){
-    rowNo++;
-    let tbody = document.querySelector("#estimateTable tbody");
-    let tr = document.createElement("tr");
-    tr.innerHTML = `
-        <td><input value="${rowNo}"></td>
-        <td><input></td>
-        <td><input type="number" oninput="calc(this)"></td>
-        <td><input type="number" oninput="calc(this)"></td>
-        <td><input class="amt" readonly></td>`;
-    tbody.appendChild(tr);
+rowNo++;
+let tr=document.createElement("tr");
+tr.innerHTML=`
+<td><input value="${rowNo}"></td>
+<td><input></td>
+<td><input type="number" oninput="calc(this)"></td>
+<td><input type="number" oninput="calc(this)"></td>
+<td><input class="amt" readonly></td>`;
+document.querySelector("#estimateTable tbody").appendChild(tr);
 }
-
 function calc(el){
-    let row = el.closest("tr");
-    let qty = row.cells[2].querySelector("input").value || 0;
-    let rate = row.cells[3].querySelector("input").value || 0;
-    row.cells[4].querySelector("input").value = qty * rate;
-    total();
+let r=el.closest("tr");
+let q=r.cells[2].querySelector("input").value||0;
+let rt=r.cells[3].querySelector("input").value||0;
+r.cells[4].querySelector("input").value=q*rt;
+total();
 }
-
 function total(){
-    let sum = 0;
-    document.querySelectorAll(".amt").forEach(a=>sum+=Number(a.value||0));
-    document.getElementById("grand").value = sum;
+let s=0;
+document.querySelectorAll(".amt").forEach(a=>s+=Number(a.value||0));
+document.getElementById("grand").value=s;
 }
-
 function downloadPDF(){
-    html2pdf().from(document.getElementById("estimate")).set({
-        filename:'Ray_Services_Service_Estimate.pdf',
-        margin:[6,12,6,12],
-        image:{type:'jpeg',quality:0.98},
-        html2canvas:{scale:2},
-        jsPDF:{unit:'mm',format:'a4',orientation:'portrait'}
-    }).save();
+html2pdf().from(document.getElementById("estimate")).set({
+filename:'Ray_Services_Service_Estimate.pdf',
+jsPDF:{unit:'mm',format:'a4'}
+}).save();
 }
 </script>
 
