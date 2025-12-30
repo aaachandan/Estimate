@@ -191,7 +191,7 @@ td input{
 <div class="title">SERVICE ESTIMATE</div>
 
 <div class="meta-line">
-    <div><b>Estimate No:</b> <input value="D/R/C/01" readonly></div>
+    <div><b>Estimate No:</b> <input value="D/R/C/01"></div>
     <div><b>Date:</b> <input id="date" readonly></div>
 </div>
 
@@ -283,7 +283,6 @@ carried out with the highest quality, safety standards, and complete cleanliness
 </div>
 
 <script>
-/* DATE */
 const d=new Date();
 document.getElementById("date").value=
 String(d.getDate()).padStart(2,'0')+"/"+
@@ -336,7 +335,6 @@ function total(){
         "Amount in Words: Rupees "+numberToWords(sum)+" Only";
 }
 
-/* PDF – TOP START */
 function downloadPDF(){
     total();
     html2pdf().set({
