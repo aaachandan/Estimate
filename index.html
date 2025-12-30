@@ -9,7 +9,6 @@
 
 <style>
 *{box-sizing:border-box}
-
 body{
     margin:0;
     padding:0;
@@ -17,13 +16,12 @@ body{
     font-family:"Segoe UI", Arial, sans-serif;
     color:#222;
 }
-
 .wrapper{
     width:100%;
     display:flex;
     justify-content:center;
+    align-items:flex-start;
 }
-
 .page{
     width:190mm;
     margin:10mm auto;
@@ -51,7 +49,8 @@ body{
     border:none;
     border-bottom:1px solid #999;
     font-size:13px;
-    width:130px;
+    width:140px;
+    outline:none;
 }
 
 /* TOP INFO */
@@ -61,10 +60,7 @@ body{
     border-bottom:2px solid #2c5364;
     padding-bottom:6px;
 }
-.box{
-    width:50%;
-    font-size:13.5px;
-}
+.box{width:50%;font-size:13.5px}
 .box b{font-size:14.5px}
 .box p{margin:2px 0}
 .box input{
@@ -85,29 +81,51 @@ table{
 th,td{
     border:1px solid #aaa;
     padding:6px;
+    vertical-align:middle;
+}
+
+/* HEADER ALIGN */
+th.col-sno,
+th.col-qty,
+th.col-rate,
+th.col-amt{
     text-align:center;
 }
-th{background:#f1f5f9;font-weight:700}
+th.col-desc{ text-align:left; }
+
+/* ROW ALIGN */
+td.col-sno input,
+td.col-qty input,
+td.col-rate input,
+td.col-amt input{
+    text-align:center;
+}
+td.col-desc input{
+    text-align:left;
+    padding-left:6px;
+}
 td input{
     width:100%;
     border:none;
     font-size:13.5px;
 }
-td.desc input{
-    text-align:left;
-    padding-left:6px;
-}
 
 /* COLUMN WIDTHS */
-.col-sno{width:7%}
-.col-desc{width:38%}
-.col-qty{width:15%}
-.col-rate{width:18%}
-.col-amt{width:22%}
+.col-sno{width:8%}
+.col-desc{width:51%}
+.col-qty{width:13%}
+.col-rate{width:14%}
+.col-amt{width:14%}
 
-.right{
-    font-weight:600;
+/* TOTAL ROW */
+.total-label{
+    text-align:center;
+    font-weight:700;
     background:#f8fafc;
+}
+.total-amount input{
+    text-align:center;
+    font-weight:700;
 }
 
 /* ACTIONS */
@@ -119,14 +137,8 @@ td.desc input{
     font-size:13px;
 }
 
-/* AMOUNT WORDS */
-.amount-words{
-    margin-top:6px;
-    font-size:13px;
-    font-weight:700;
-}
-
-/* ASSURANCE */
+/* TEXT */
+.amount-words{margin-top:6px;font-size:13px;font-weight:700}
 .assurance{
     margin-top:10px;
     font-size:13px;
@@ -134,45 +146,24 @@ td.desc input{
     line-height:1.6;
     text-indent:28px;
 }
-
-/* RESPONSE */
 .response{
     text-align:center;
     font-size:12px;
     color:#555;
     margin:8px 0;
 }
+.terms{font-size:12px;line-height:1.45}
 
-/* TERMS */
-.terms{
-    font-size:12px;
-    line-height:1.45;
-}
-
-/* NOTE SIDE-BY-SIDE (FINAL) */
+/* NOTE */
 .note-wrap{
     display:grid;
     grid-template-columns:auto 1fr;
     column-gap:6px;
 }
-.note-label{
-    font-weight:700;
-    white-space:nowrap;
-}
-.note-text span{
-    display:block;
-    margin:0;
-}
-
-/* COLORS */
-.msme-line{
-    color:#ff6f00;
-    font-weight:700;
-}
-.ngo-line{
-    color:#138808;
-    font-weight:700;
-}
+.note-label{font-weight:700;white-space:nowrap}
+.note-text span{display:block}
+.msme-line{color:#ff6f00;font-weight:700}
+.ngo-line{color:#138808;font-weight:700}
 
 /* BUTTON */
 .pdf-btn{
@@ -187,6 +178,7 @@ td.desc input{
 }
 
 @media print{
+    body{background:#fff}
     .pdf-btn,.add-row{display:none}
 }
 </style>
@@ -199,8 +191,8 @@ td.desc input{
 <div class="title">SERVICE ESTIMATE</div>
 
 <div class="meta-line">
-    <div><b>Estimate No:</b> <input value="D/R/C/01"></div>
-    <div><b>Date:</b> <input id="date"></div>
+    <div><b>Estimate No:</b> <input value="D/R/C/01" readonly></div>
+    <div><b>Date:</b> <input id="date" readonly></div>
 </div>
 
 <div class="top">
@@ -229,18 +221,20 @@ td.desc input{
     <th class="col-amt">Amount (₹)</th>
 </tr>
 </thead>
+
 <tbody>
 <tr>
     <td class="col-sno"><input value="1"></td>
-    <td class="col-desc desc"><input></td>
+    <td class="col-desc"><input></td>
     <td class="col-qty"><input type="number" oninput="calc(this)"></td>
     <td class="col-rate"><input type="number" oninput="calc(this)"></td>
     <td class="col-amt"><input class="amt" readonly></td>
 </tr>
 </tbody>
+
 <tr>
-    <td colspan="4" class="right">Total</td>
-    <td class="col-amt"><input id="grand" readonly></td>
+    <td colspan="4" class="total-label">Total</td>
+    <td class="col-amt total-amount"><input id="grand" readonly></td>
 </tr>
 </table>
 
@@ -249,7 +243,7 @@ td.desc input{
 </div>
 
 <div class="amount-words" id="amountWords">
-Amount in Words: ₹ Rupees Zero Only
+Amount in Words: Rupees Zero Only
 </div>
 
 <div class="assurance">
@@ -289,18 +283,20 @@ carried out with the highest quality, safety standards, and complete cleanliness
 </div>
 
 <script>
-let d=new Date();
+/* DATE */
+const d=new Date();
 document.getElementById("date").value=
-String(d.getDate()).padStart(2,'0')+"/"+String(d.getMonth()+1).padStart(2,'0')+"/"+d.getFullYear();
+String(d.getDate()).padStart(2,'0')+"/"+
+String(d.getMonth()+1).padStart(2,'0')+"/"+
+d.getFullYear();
 
 let rowNo=1;
-
 function addRow(){
     rowNo++;
     let tr=document.createElement("tr");
     tr.innerHTML=`
         <td class="col-sno"><input value="${rowNo}"></td>
-        <td class="col-desc desc"><input></td>
+        <td class="col-desc"><input></td>
         <td class="col-qty"><input type="number" oninput="calc(this)"></td>
         <td class="col-rate"><input type="number" oninput="calc(this)"></td>
         <td class="col-amt"><input class="amt" readonly></td>`;
@@ -310,9 +306,9 @@ function addRow(){
 
 function calc(el){
     let r=el.closest("tr");
-    let qty=r.cells[2].querySelector("input").value||0;
-    let rate=r.cells[3].querySelector("input").value||0;
-    r.cells[4].querySelector("input").value=qty*rate;
+    let q=r.cells[2].querySelector("input").value||0;
+    let rt=r.cells[3].querySelector("input").value||0;
+    r.cells[4].querySelector("input").value=q*rt;
     total();
 }
 
@@ -335,22 +331,21 @@ function numberToWords(num){
 function total(){
     let sum=0;
     document.querySelectorAll(".amt").forEach(a=>sum+=Number(a.value||0));
-    document.getElementById("grand").value="₹ "+sum;
+    document.getElementById("grand").value=sum;
     document.getElementById("amountWords").innerText=
-        "Amount in Words: ₹ Rupees "+numberToWords(sum)+" Only";
+        "Amount in Words: Rupees "+numberToWords(sum)+" Only";
 }
 
+/* PDF – TOP START */
 function downloadPDF(){
     total();
-    const element=document.getElementById("estimate");
-    const options={
-        margin:5,
+    html2pdf().set({
+        margin:0,
         filename:'Ray_Services_Estimate.pdf',
         image:{type:'jpeg',quality:1},
         html2canvas:{scale:3,dpi:300,letterRendering:true,useCORS:true},
         jsPDF:{unit:'mm',format:'a4',orientation:'portrait'}
-    };
-    html2pdf().set(options).from(element).save();
+    }).from(document.getElementById("estimate")).save();
 }
 </script>
 
