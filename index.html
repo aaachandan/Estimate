@@ -25,7 +25,7 @@ body{
 }
 
 .page{
-    width:190mm;                 /* A4 safe */
+    width:190mm;
     margin:10mm auto;
     background:#fff;
     padding:10mm 12mm;
@@ -52,7 +52,6 @@ body{
     border-bottom:1px solid #999;
     font-size:13px;
     width:130px;
-    outline:none;
 }
 
 /* TOP INFO */
@@ -73,8 +72,6 @@ body{
     border:none;
     border-bottom:1px solid #999;
     font-size:13.5px;
-    margin-top:3px;
-    outline:none;
 }
 
 /* TABLE */
@@ -83,34 +80,35 @@ table{
     border-collapse:collapse;
     margin-top:12px;
     font-size:13.5px;
+    table-layout:fixed;
 }
 th,td{
     border:1px solid #aaa;
     padding:6px;
     text-align:center;
 }
-th{background:#f1f5f9}
+th{background:#f1f5f9;font-weight:700}
 td input{
     width:100%;
     border:none;
     font-size:13.5px;
-    outline:none;
 }
 td.desc input{
     text-align:left;
     padding-left:6px;
 }
-.right{
-    font-weight:600;
-    background:#f8fafc;
-}
 
-/* WIDTHS */
+/* COLUMN WIDTHS */
 .col-sno{width:7%}
 .col-desc{width:38%}
 .col-qty{width:15%}
 .col-rate{width:18%}
 .col-amt{width:22%}
+
+.right{
+    font-weight:600;
+    background:#f8fafc;
+}
 
 /* ACTIONS */
 .actions{margin-top:6px}
@@ -119,7 +117,6 @@ td.desc input{
     border:1px solid #9bbcd1;
     padding:5px 12px;
     font-size:13px;
-    cursor:pointer;
 }
 
 /* AMOUNT WORDS */
@@ -129,21 +126,55 @@ td.desc input{
     font-weight:700;
 }
 
-/* DARK YELLOW ASSURANCE */
+/* ASSURANCE */
 .assurance{
     margin-top:10px;
-    padding:12px 14px;
-    background:#ffe08a;
-    border-left:6px solid #d4a017;
     font-size:13px;
-    font-weight:700;
+    font-weight:600;
     line-height:1.6;
+    text-indent:28px;
 }
 
-/* OTHER */
-.response{text-align:center;font-size:12px;color:#555;margin:6px 0}
-.terms{font-size:12px;line-height:1.45}
+/* RESPONSE */
+.response{
+    text-align:center;
+    font-size:12px;
+    color:#555;
+    margin:8px 0;
+}
 
+/* TERMS */
+.terms{
+    font-size:12px;
+    line-height:1.45;
+}
+
+/* NOTE SIDE-BY-SIDE (FINAL) */
+.note-wrap{
+    display:grid;
+    grid-template-columns:auto 1fr;
+    column-gap:6px;
+}
+.note-label{
+    font-weight:700;
+    white-space:nowrap;
+}
+.note-text span{
+    display:block;
+    margin:0;
+}
+
+/* COLORS */
+.msme-line{
+    color:#ff6f00;
+    font-weight:700;
+}
+.ngo-line{
+    color:#138808;
+    font-weight:700;
+}
+
+/* BUTTON */
 .pdf-btn{
     background:#2c5364;
     color:#fff;
@@ -191,27 +222,25 @@ td.desc input{
 <table id="estimateTable">
 <thead>
 <tr>
-<th class="col-sno">S.No</th>
-<th class="col-desc">Service Description</th>
-<th class="col-qty">Qty / Sq Ft</th>
-<th class="col-rate">Rate (₹)</th>
-<th class="col-amt">Amount (₹)</th>
+    <th class="col-sno">S.No</th>
+    <th class="col-desc">Service Description</th>
+    <th class="col-qty">Qty / Sq Ft</th>
+    <th class="col-rate">Rate (₹)</th>
+    <th class="col-amt">Amount (₹)</th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
-<td><input value="1"></td>
-<td class="desc"><input></td>
-<td><input type="number" oninput="calc(this)"></td>
-<td><input type="number" oninput="calc(this)"></td>
-<td><input class="amt" readonly></td>
+    <td class="col-sno"><input value="1"></td>
+    <td class="col-desc desc"><input></td>
+    <td class="col-qty"><input type="number" oninput="calc(this)"></td>
+    <td class="col-rate"><input type="number" oninput="calc(this)"></td>
+    <td class="col-amt"><input class="amt" readonly></td>
 </tr>
 </tbody>
-
 <tr>
-<td colspan="4" class="right">Total</td>
-<td><input id="grand" readonly></td>
+    <td colspan="4" class="right">Total</td>
+    <td class="col-amt"><input id="grand" readonly></td>
 </tr>
 </table>
 
@@ -220,11 +249,11 @@ td.desc input{
 </div>
 
 <div class="amount-words" id="amountWords">
-Amount in Words: Rupees Zero Only
+Amount in Words: ₹ Rupees Zero Only
 </div>
 
 <div class="assurance">
-We have over 8 years of professional experience, and we assure you that all work will be 
+We have over 8 years of professional experience, and we assure you that all work will be
 carried out with the highest quality, safety standards, and complete cleanliness.
 </div>
 
@@ -232,23 +261,26 @@ carried out with the highest quality, safety standards, and complete cleanliness
 --------------------------- (We are waiting for your response) ----------------------------
 </div>
 
-<!-- TERMS & CONDITIONS – EXACT AS REQUESTED -->
 <div class="terms">
-<b>Terms & Conditions</b><br><br>
+<b>Terms & Conditions</b><br>
+1. Prices: Inclusive of GST @ 18%.<br>
+2. Payment: 100% advance, in favor of “RAY SERVICES” (via Bank / UPI / Online Transfer).<br>
+3. Delivery: Within 7 days from order confirmation.<br>
+4. Transportation: Extra at actuals.<br>
+5. Installation: Charges extra as applicable.<br>
+6. Validity: This estimate is valid for 7 days from the date of issue.<br>
+7. Work Order: Once confirmed, the order cannot be cancelled.<br>
+8. Work Schedule: Government holidays will not be counted as working days.<br>
+9. Liability: RAY SERVICES will not be responsible for any losses due to environmental or unforeseen circumstances<br>
+10. Repair Work: No warranty or guarantee is applicable on any repair work. For products requiring warranty, customers are requested to provide the original warranty documents. RAY SERVICES is always committed to delivering the best service possible<br><br>
 
-1. <b>Prices:</b> Inclusive of GST @ 18%.<br>
-2. <b>Payment:</b> 100% advance, in favor of “<b>RAY SERVICES</b>” (via Bank / UPI / Online Transfer).<br>
-3. <b>Delivery:</b> Within 7 days from order confirmation.<br>
-4. <b>Transportation:</b> Extra at actuals.<br>
-5. <b>Installation:</b> Charges extra as applicable.<br>
-6. <b>Validity:</b> This estimate is valid for 7 days from the date of issue.<br>
-7. <b>Work Order:</b> Once confirmed, the order cannot be cancelled.<br>
-8. <b>Work Schedule:</b> Government holidays will not be counted as working days.<br>
-9. <b>Liability:</b> <b>RAY SERVICES</b> will not be responsible for any losses due to environmental or unforeseen circumstances<br>
-10. <b>Repair Work:</b> No warranty or guarantee is applicable on any repair work. For products requiring warranty, customers are requested to provide the original warranty documents. <b>RAY SERVICES</b> is always committed to delivering the best service possible<br><br>
-
-<b>Note:</b> Our firm is registered as an MSME Unit under Govt. of India. UDYAM-CG-14-0116772<br>
-As part of our commitment to social responsibility, service charges are waived for all registered NGOs contributing to nation building
+<div class="note-wrap">
+    <div class="note-label">Note:</div>
+    <div class="note-text">
+        <span class="msme-line">Our firm is registered as an MSME Unit under Govt. of India. UDYAM-CG-14-0116772</span>
+        <span class="ngo-line">As part of our commitment to social responsibility, service charges are waived for all registered NGOs contributing to nation building</span>
+    </div>
+</div>
 </div>
 
 <button class="pdf-btn" onclick="downloadPDF()">📄 Service Estimate</button>
@@ -257,14 +289,33 @@ As part of our commitment to social responsibility, service charges are waived f
 </div>
 
 <script>
-/* AUTO DATE */
 let d=new Date();
 document.getElementById("date").value=
-String(d.getDate()).padStart(2,'0')+"/"+
-String(d.getMonth()+1).padStart(2,'0')+"/"+
-d.getFullYear();
+String(d.getDate()).padStart(2,'0')+"/"+String(d.getMonth()+1).padStart(2,'0')+"/"+d.getFullYear();
 
-/* NUMBER TO WORDS – INDIAN FORMAT */
+let rowNo=1;
+
+function addRow(){
+    rowNo++;
+    let tr=document.createElement("tr");
+    tr.innerHTML=`
+        <td class="col-sno"><input value="${rowNo}"></td>
+        <td class="col-desc desc"><input></td>
+        <td class="col-qty"><input type="number" oninput="calc(this)"></td>
+        <td class="col-rate"><input type="number" oninput="calc(this)"></td>
+        <td class="col-amt"><input class="amt" readonly></td>`;
+    document.querySelector("#estimateTable tbody").appendChild(tr);
+    total();
+}
+
+function calc(el){
+    let r=el.closest("tr");
+    let qty=r.cells[2].querySelector("input").value||0;
+    let rate=r.cells[3].querySelector("input").value||0;
+    r.cells[4].querySelector("input").value=qty*rate;
+    total();
+}
+
 function numberToWords(num){
     if(num===0) return "Zero";
     const a=["","One","Two","Three","Four","Five","Six","Seven","Eight","Nine","Ten",
@@ -281,40 +332,25 @@ function numberToWords(num){
     return inWords(num);
 }
 
-let rowNo=1;
-
-function addRow(){
-    rowNo++;
-    let tr=document.createElement("tr");
-    tr.innerHTML=`
-        <td><input value="${rowNo}"></td>
-        <td class="desc"><input></td>
-        <td><input type="number" oninput="calc(this)"></td>
-        <td><input type="number" oninput="calc(this)"></td>
-        <td><input class="amt" readonly></td>`;
-    document.querySelector("#estimateTable tbody").appendChild(tr);
-    total();
-}
-
-function calc(el){
-    let r=el.closest("tr");
-    let qty=r.cells[2].querySelector("input").value||0;
-    let rate=r.cells[3].querySelector("input").value||0;
-    r.cells[4].querySelector("input").value=qty*rate;
-    total();
-}
-
 function total(){
     let sum=0;
     document.querySelectorAll(".amt").forEach(a=>sum+=Number(a.value||0));
-    document.getElementById("grand").value=sum;
+    document.getElementById("grand").value="₹ "+sum;
     document.getElementById("amountWords").innerText=
-        "Amount in Words: Rupees "+numberToWords(sum)+" Only";
+        "Amount in Words: ₹ Rupees "+numberToWords(sum)+" Only";
 }
 
 function downloadPDF(){
     total();
-    html2pdf().from(document.getElementById("estimate")).save();
+    const element=document.getElementById("estimate");
+    const options={
+        margin:5,
+        filename:'Ray_Services_Estimate.pdf',
+        image:{type:'jpeg',quality:1},
+        html2canvas:{scale:3,dpi:300,letterRendering:true,useCORS:true},
+        jsPDF:{unit:'mm',format:'a4',orientation:'portrait'}
+    };
+    html2pdf().set(options).from(element).save();
 }
 </script>
 
